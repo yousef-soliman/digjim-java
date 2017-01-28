@@ -41,7 +41,7 @@ public class Board extends JPanel implements ActionListener{
     public int dimPosY[] = {1,  2,  4,4, 6,  7,7,  9,9  ,10};
     public int block;
     public boolean[][] path = new boolean[32][32];
-    private Craft craft;
+    private Character character;
     private final int DELAY = 10;
     public int indx = 0;
     JButton jb = new JButton("");
@@ -58,7 +58,7 @@ public class Board extends JPanel implements ActionListener{
         setFocusable(true);
         requestFocusInWindow();
         loadimg();
-        craft = new Craft();
+        character = new Character();
         timer = new Timer(DELAY, this);
         timer.start();
         
@@ -100,12 +100,12 @@ public class Board extends JPanel implements ActionListener{
     	int xpos;
         int ypos;
         int block = im.getWidth(null);
-        path[(int)craft.getX()/64][(int)craft.getY()/64] = true;
+        path[(int)character.getX()/64][(int)character.getY()/64] = true;
         for (int i = 0; i <= 20*64; i += im.getWidth(null)) {
 
             for (int j = 0; j <= 11*64; j += im.getHeight(null)) {
             	
-                if ((craft.getX() == i) && (craft.getY() == j)) {
+                if ((character.getX() == i) && (character.getY() == j)) {
                     if (isDim(i, j)) {
                         xpos = Search(i / block, j/block, dimPosX,dimPosY);
                         dimPosX[xpos] = -1;
@@ -148,8 +148,8 @@ public class Board extends JPanel implements ActionListener{
     }
 
     private void doDrawing(Graphics g) {
-        Image i = craft.getImage();
-        g.drawImage(i, craft.getX(), craft.getY(), im.getWidth(null), im.getHeight(null), null);
+        Image i = character.getImage();
+        g.drawImage(i, character.getX(), character.getY(), im.getWidth(null), im.getHeight(null), null);
     }
 
     private void loadimg() {
@@ -178,9 +178,9 @@ public class Board extends JPanel implements ActionListener{
         // TODO Auto-generated method stub
     	
         
-    	craft.move();
-        if(isStone(craft.getX(),craft.getY())) {
-        	craft.breakpaint();
+    	character.move();
+        if(isStone(character.getX(),character.getY())) {
+        	character.breakpaint();
         	return;
         }
         new Thread(){
@@ -194,13 +194,13 @@ public class Board extends JPanel implements ActionListener{
     boolean t = true;
     private void fall(){
     	for (Object m1 : stones) {
-    		if(((Stone) m1).getStdy()+64 == craft.getY() && ((Stone) m1).getStdx() == craft.getX() && ((Stone) m1).isMm()){
+    		if(((Stone) m1).getStdy()+64 == character.getY() && ((Stone) m1).getStdx() == character.getX() && ((Stone) m1).isMm()){
     			game = false;
     			
     		}
     		else ((Stone) m1).setMm(false);
             if((path[((Stone) m1).getX()/64][(((Stone) m1).getY()+64) / 64] == true)
-            		&&  (((Stone) m1).getStdy()+64 != craft.getY() || ((Stone) m1).getStdx() != craft.getX())
+            		&&  (((Stone) m1).getStdy()+64 != character.getY() || ((Stone) m1).getStdx() != character.getX())
             		 && isStone(((Stone) m1).getStdx(),((Stone) m1).getStdy()+64)==false){
             	((Stone) m1).setMm(true);
             	if(((Stone) m1).getY() == ((Stone) m1).getStdy()+ 48 ){
@@ -215,12 +215,12 @@ public class Board extends JPanel implements ActionListener{
 
         @Override
         public void keyReleased(KeyEvent e) {
-             craft.keyReleased(e);
+             character.keyReleased(e);
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-            craft.keyPressed(e);
+            character.keyPressed(e);
         }
 
     }
