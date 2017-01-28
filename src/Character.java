@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
 
-public class Craft {
+public class Character {
 
     private int dx;
     private int dy;
@@ -13,7 +13,7 @@ public class Craft {
     private int lastx,lasty;
     private Image image;
 
-    public Craft() {
+    public Character() {
         
         initCraft();
     }
